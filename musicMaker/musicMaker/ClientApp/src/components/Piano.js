@@ -4,7 +4,9 @@ export class Piano extends Component {
     displayName = Piano.name
 
     playSound() {
-        alert("Die");
+        var sound = new Audio();
+        sound.src = 'http://localhost:8887/piano-c.wav';
+        sound.play();
     }
 
     render() {
@@ -12,7 +14,7 @@ export class Piano extends Component {
             <div>
                 <img src={require('C:/Users/matra/OneDrive/Asztali gép/codecool/PET_projects/musicMaker/musicMaker/musicMaker/ClientApp/src/images/piano.png')} alt='piano' useMap='#keys' />
                 <map name="keys">
-                    <area shape="rect" coords="8,8,38,140" alt="C" onClick={this.playSound} />
+                    <area shape="rect" coords="8,8,35,142" alt="C" onClick={this.playSound} />
                 </map>
             </div>
         );
