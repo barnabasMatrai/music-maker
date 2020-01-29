@@ -6,7 +6,7 @@ export class Piano extends Component {
     render() {
         return (
             <div>
-                <p>Hi</p>
+                <img src={require('C:/Users/matra/OneDrive/Asztali gép/codecool/PET_projects/musicMaker/musicMaker/musicMaker/ClientApp/src/images/piano.png')} alt='piano' />
             </div>
         );
     }
