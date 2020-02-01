@@ -2,10 +2,10 @@
 
 export class Piano extends Component {
     displayName = Piano.name
-    mySound = new Audio();
 
     playSound(e) {
         const key = e.currentTarget.id;
+        const mySound = new Audio();
         mySound.src = 'http://localhost:8887/piano-' + key + '.wav';
         mySound.play();
     }
