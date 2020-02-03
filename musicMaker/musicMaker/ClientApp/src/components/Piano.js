@@ -3,11 +3,37 @@
 export class Piano extends Component {
     displayName = Piano.name
 
+    componentDidMount() {
+        document.addEventListener("keydown", this.playSoundWithKeyboard);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.playSoundWithKeyboard);
+    }
+
     playSound(e) {
         const key = e.currentTarget.id;
         const mySound = new Audio();
         mySound.src = 'http://localhost:8887/piano-' + key + '.wav';
         mySound.play();
+    }
+
+    playSoundWithKeyboard(e) {
+        const keyboardKeys = {
+            "a": "g",
+            "s": "a",
+            "d": "b",
+            "f": "c",
+            "g": "d",
+            "h": "e",
+            "j": "f"
+        };
+
+        if (e.key in keyboardKeys) {
+            const mySound = new Audio();
+            mySound.src = 'http://localhost:8887/piano-' + keyboardKeys[e.key] + '.wav';
+            mySound.play();
+        }
     }
 
     render() {
