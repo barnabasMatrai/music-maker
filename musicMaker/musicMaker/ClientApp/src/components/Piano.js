@@ -1,37 +1,58 @@
 ﻿import React, { Component } from 'react';
+import { MusicSheet } from './MusicSheet';
 
 export class Piano extends Component {
     displayName = Piano.name
 
     componentDidMount() {
         document.addEventListener("keydown", this.playSoundWithKeyboard);
+        document.addEventListener("keydown", this.addNote);
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.playSoundWithKeyboard);
     }
 
+    addNote(e) {
+        const keyboardKeys = {
+            "a": "c",
+            "s": "d",
+            "d": "e",
+            "f": "f",
+            "g": "g",
+            "h": "a",
+            "j": "b"
+        };
+
+        if (e.key in keyboardKeys) {
+            const musicSheet = document.getElementById('music_sheet');
+            const note = document.createElement("img");
+            note.src = 'http://localhost:8887/images/' + keyboardKeys[e.key] + '_note.png';
+            musicSheet.appendChild(note);
+        }
+    }
+
     playSound(e) {
         const key = e.currentTarget.id;
         const mySound = new Audio();
-        mySound.src = 'http://localhost:8887/piano-' + key + '.wav';
+        mySound.src = 'http://localhost:8887/sounds/piano-' + key + '_major.wav';
         mySound.play();
     }
 
     playSoundWithKeyboard(e) {
         const keyboardKeys = {
-            "a": "g",
-            "s": "a",
-            "d": "b",
-            "f": "c",
-            "g": "d",
-            "h": "e",
-            "j": "f"
+            "a": "c",
+            "s": "d",
+            "d": "e",
+            "f": "f",
+            "g": "g",
+            "h": "a",
+            "j": "b"
         };
 
         if (e.key in keyboardKeys) {
             const mySound = new Audio();
-            mySound.src = 'http://localhost:8887/piano-' + keyboardKeys[e.key] + '.wav';
+            mySound.src = 'http://localhost:8887/sounds/piano-' + keyboardKeys[e.key] + '_major.wav';
             mySound.play();
         }
     }
@@ -49,6 +70,7 @@ export class Piano extends Component {
                     <area id="a" shape="rect" coords="143,8,170,142," alt="a" onClick={this.playSound} />
                     <area id="b" shape="rect" coords="170,8,197,142," alt="b" onClick={this.playSound} />
                 </map>
+                <MusicSheet />
             </div>
         );
     }
