@@ -11,6 +11,7 @@ export class Piano extends Component {
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.playSoundWithKeyboard);
+        document.removeEventListener("keydown", this.addNote);
     }
 
     addNote(e) {
