@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import { MusicSheet } from './MusicSheet';
+import axios from 'axios';
 
 export class Piano extends Component {
     displayName = Piano.name
+    state = {
+        compositions: []
+    }
 
     componentDidMount() {
         document.addEventListener("keydown", this.playSoundWithKeyboard);
         document.addEventListener("keydown", this.addNote);
+        axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+        axios.get('https://localhost:44303/api/composition')
+            .then(res => {
+                const compositions = res.data;
+                this.setState({ compositions });
+            })
     }
 
     componentWillUnmount() {
@@ -72,6 +82,9 @@ export class Piano extends Component {
                     <area id="b" shape="rect" coords="170,8,197,142," alt="b" onClick={this.playSound} />
                 </map>
                 <MusicSheet />
+                <ul>
+                    {this.state.compositions.map(composition => <li key={composition.id} >{composition.id}</li>)}
+                </ul>
             </div>
         );
     }
