@@ -5,7 +5,8 @@ import axios from 'axios';
 export class Piano extends Component {
     displayName = Piano.name
     state = {
-        compositions: []
+        compositions: [],
+        compositionToSave: []
     }
 
     componentDidMount() {
@@ -38,6 +39,7 @@ export class Piano extends Component {
         if (e.key in keyboardKeys) {
             const musicSheet = document.getElementById('music_sheet');
             const note = document.createElement("img");
+            note.className = keyboardKeys[e.key];
             note.src = 'http://localhost:8887/images/' + keyboardKeys[e.key] + '_note.png';
             musicSheet.appendChild(note);
         }
@@ -68,6 +70,24 @@ export class Piano extends Component {
         }
     }
 
+    saveComposition() {
+        const notes = document.getElementById("music_sheet").children;
+        let notesString = [];
+        const saveName = document.getElementById("save_name");
+
+        Array.from(notes).forEach(function (element) {
+            notesString.push(element.className);
+        });
+        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
+        const composition = {
+            title: saveName.value,
+            notes: notesString.join("")
+        }
+
+        axios.post('https://localhost:44303/api/composition', composition);
+    }
+
     render() {
         return (
             <div>
@@ -83,8 +103,10 @@ export class Piano extends Component {
                 </map>
                 <MusicSheet />
                 <ul>
-                    {this.state.compositions.map(composition => <li key={composition.id} >{composition.id}</li>)}
+                    {this.state.compositions.map(composition => <li key={composition.id} >{composition.title}</li>)}
                 </ul>
+                <input id="save_name" />
+                <button onClick={this.saveComposition}>Save composition</button>
             </div>
         );
     }
