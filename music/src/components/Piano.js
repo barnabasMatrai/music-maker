@@ -26,14 +26,18 @@ export class Piano extends Component {
     }
 
     addNote(e) {
+        if (document.activeElement.tagName === 'INPUT') {
+            return;
+        }
+
         const keyboardKeys = {
-            "a": "c",
-            "s": "d",
-            "d": "e",
-            "f": "f",
-            "g": "g",
-            "h": "a",
-            "j": "b"
+            "a": "a",
+            "s": "b",
+            "d": "c",
+            "f": "d",
+            "g": "e",
+            "h": "f",
+            "j": "g"
         };
 
         if (e.key in keyboardKeys) {
@@ -53,14 +57,18 @@ export class Piano extends Component {
     }
 
     handleKeydown(e) {
+        if (document.activeElement.tagName === 'INPUT') {
+            return;
+        }
+
         const keyboardKeys = {
-            "a": "c",
-            "s": "d",
-            "d": "e",
-            "f": "f",
-            "g": "g",
-            "h": "a",
-            "j": "b"
+            "a": "a",
+            "s": "b",
+            "d": "c",
+            "f": "d",
+            "g": "e",
+            "h": "f",
+            "j": "g"
         };
 
         if (e.key in keyboardKeys) {
@@ -73,7 +81,17 @@ export class Piano extends Component {
     saveComposition() {
         const notes = document.getElementById("music_sheet").children;
         let notesString = [];
-        const saveName = document.getElementById("save_name");
+        const saveName = document.getElementById("save_name").value;
+
+        if (notes.length === 0) {
+            alert('Compose something first!');
+            return;
+        }
+
+        if (saveName === "") {
+            alert('Give your composition a name!');
+            return;
+        }
 
         Array.from(notes).forEach(function (element) {
             notesString.push(element.className);
@@ -81,11 +99,34 @@ export class Piano extends Component {
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
         const composition = {
-            title: saveName.value,
+            title: saveName,
             notes: notesString.join("")
         }
 
         axios.post('https://localhost:44303/api/composition', composition);
+    }
+
+    playComposition() {
+        const notes = Array.from(document.getElementById("music_sheet").children);
+        let i = 0;
+
+        if (typeof notes[0] !== 'undefined') {
+            function noteLoop() {
+                setTimeout(function () {
+                    const mySound = new Audio();
+                    mySound.src = 'http://localhost:8887/sounds/piano-' + notes[i].className + '_major.wav';
+                    mySound.play();
+                    i++;
+                    if (i < notes.length) {
+                        noteLoop();
+                    }
+                }, 1000)
+            }
+
+            noteLoop();
+        } else {
+            alert('Compose something first!');
+        }
     }
 
     render() {
@@ -107,6 +148,7 @@ export class Piano extends Component {
                 </ul>
                 <input id="save_name" />
                 <button onClick={this.saveComposition}>Save composition</button>
+                <button onClick={this.playComposition}>Play composition</button>
             </div>
         );
     }
