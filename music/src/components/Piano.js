@@ -134,13 +134,13 @@ export class Piano extends Component {
             <div>
                 <img src='http://localhost:8887/images/piano.png' alt='piano' useMap='#keys' />
                 <map name="keys">
-                    <area id="c" shape="rect" coords="8,8,35,142" alt="c" onClick={this.handleClick} />
-                    <area id="d" shape="rect" coords="35,8,62,142," alt="d" onClick={this.handleClick} />
-                    <area id="e" shape="rect" coords="62,8,89,142," alt="e" onClick={this.handleClick} />
-                    <area id="f" shape="rect" coords="89,8,116,142," alt="f" onClick={this.handleClick} />
-                    <area id="g" shape="rect" coords="116,8,143,142," alt="g" onClick={this.handleClick} />
-                    <area id="a" shape="rect" coords="143,8,170,142," alt="a" onClick={this.handleClick} />
-                    <area id="b" shape="rect" coords="170,8,197,142," alt="b" onClick={this.handleClick} />
+                    <area id="a" shape="rect" coords="8,8,35,142" alt="a" onClick={this.handleClick} />
+                    <area id="b" shape="rect" coords="35,8,62,142," alt="b" onClick={this.handleClick} />
+                    <area id="c" shape="rect" coords="62,8,89,142," alt="c" onClick={this.handleClick} />
+                    <area id="d" shape="rect" coords="89,8,116,142," alt="d" onClick={this.handleClick} />
+                    <area id="e" shape="rect" coords="116,8,143,142," alt="e" onClick={this.handleClick} />
+                    <area id="f" shape="rect" coords="143,8,170,142," alt="f" onClick={this.handleClick} />
+                    <area id="g" shape="rect" coords="170,8,197,142," alt="g" onClick={this.handleClick} />
                 </map>
                 <MusicSheet />
                 <ul>
